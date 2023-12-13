@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="https://www.thymeleaf.org"
+      th:replace="user_base::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <title>User Dashboard</title>
+</head>
+<body>
+    <section>
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="container text-center">
+                        <img src="" style="height: 200px; width: 200px;" class="my_profile text-center"
+                             th:src="@{'/contact_logo.png'}" alt="contact_profile image">
+                    </div>
+
+                    <h1 class="text-center font-weight-light mt-3 text-secondary fond-italic">Start Adding your Products...</h1>
+
+                    <div class="container text-center mt-4">
+                        <a th:href="@{'/user/add-contact'}">
+                            <button class="btn btn-primary btn-block">Add Product</button>
+                        </a>
+                    </div>
+
+                    <hr>
+
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(()=>{
+                $(".item").removeClass('active')
+                $("#home-link").addClass("active");
+            });
+        </script>
+
+    </section>
+</body>
+</html>

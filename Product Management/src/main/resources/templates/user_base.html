@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" th:fragment="layout(content)">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${title}">Base html</title>
+  <link rel="stylesheet" th:href="@{/style.css}"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+        crossorigin="anonymous">
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script th:src="@{/script.js}" ></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
+<!--navbar-->
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Product Management System</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto text-uppercase">
+
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/}" href="#">Home</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link"  href="#" tabindex="-1" aria-disabled="true">
+            <span th:text="${user.name}"></span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/logout}" href="#" tabindex="-1" aria-disabled="true">Logout</a>
+        </li>
+
+      </ul>
+    </div>
+
+  </div>
+</nav>
+
+
+<!-- SIDEBAR  -->
+<div class="sidebar mt-2">
+
+  <span th:onclick="toggleSidebar()" class="crossBtn">&times;</span>
+
+  <a id="home-link" href="#" th:href="@{/user/index}" class="item active"> <i class="fas fa-home"></i> Home</a>
+  <a id="contact-link" href="#" th:href="@{/user/show-contacts/0}" class="item"> <i class="fas fa-id-card-alt"></i> View Products</a>
+  <a id="addContact-link" href="#" th:href="@{/user/add-contact}" class="item"> <i class="fas fa-pencil-alt"></i> Add Product</a>
+  <a id="profile-link" href="#" th:href="@{/user/profile}" class="item"> <i class="fas fa-user-circle"></i> Your Profile</a>
+  <a id="setting-link" href="#" th:href="@{/user/settings}" class="item"> <i class="fas fa-cogs"></i> Settings</a>
+  <a href="#" th:href="@{/logout}" class="item"> <i class="fas fa-sign-out-alt"></i> Logout</a>
+
+  <div class="divider"></div>
+
+</div>
+<!-- END SIDEBAR  -->
+
+<!-- content area -->
+
+<div class="content mt-5">
+
+  <i th:onclick="toggleSidebar()" class="fas fa-bars m-3"></i>
+
+  <div th:if="${session.message}" class="container">
+    <div th:classappend="${'alert-' + session.message.type}" class="alert alert-success text-center" role="alert">
+      <span th:text="${session.message.content}"></span>
+    </div>
+    <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+  </div>
+
+  <div class="container" th:replace="${content}"></div>
+
+</div>
+
+<!--END CONTENT-->
+
+<script>
+  function deleteContact(cId)
+  {
+    swal({
+      title: "Are you sure?",
+      text: "You want to delete this product",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+            .then((willDelete)=>{
+              if(willDelete){
+                window.location("/user/delete/"+cId);
+              } else {
+                swal("You product is safe!");
+              }
+            });
+  }
+</script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<!--<script type="text/javascript" th:src="@{/js/script.js}"></script>-->
+</body>
+</html>

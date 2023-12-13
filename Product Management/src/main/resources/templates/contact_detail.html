@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="https://www.thymeleaf.org"
+      th:replace="user_base::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <title>User Dashboard</title>
+</head>
+<body>
+    <section>
+        <div class="card" th:if="${contact}">
+            <div class="card-body">
+                <div class="container text-center">
+                    <img src="" style="height: 200px; width: 200px;" class="my_profile"
+                         th:src="@{'/'+${contact.image}}"
+                         alt="profile image">
+                    <h3 class="mt-3">
+                        <span th:text="${contact.name}"></span>
+                    </h3>
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#ID</th>
+                            <th scope="col">ID-<span th:text="${contact.cId}"></span></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Quantity</th>
+                                <td> <span th:text="${contact.quantity}"></span>  </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">Price</th>
+                                <td> <span th:text="${contact.price}"></span>  </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">BarCode</th>
+                                <td>
+                                    <img src="${pageContext.request.contextPath}/contact/barcode/{contact.cid}" width="200" height="100">
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+
+                    <div class="description mt-3">
+                        <th:block th:utext="${contact.description}"></th:block>
+                    </div>
+
+                    <div class="container mt-3">
+                        <a th:href="@{'/user/delete/'+${contact.getCId()}}">
+                            <button class="btn btn-danger btn-block">Delete</button>
+                        </a>
+
+                        <form th:action="@{'/user/update-contact/'+${contact.getCId()}}" method="post" class="mt-2">
+                            <button type="submit" class="btn btn-primary btn-block">Update</button>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="container">
+            <h1 th:unless="${contact}">You don't have permission to access this product detail....</h1>
+        </div>
+
+    </section>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="https://www.thymeleaf.org"
+      th:replace="user_base::layout(~{::section})">
+<head>
+  <meta charset="UTF-8">
+  <title>All Products</title>
+</head>
+<body>
+  <section>
+    <div class="card mr-3 ml-3">
+      <div class="card-body">
+        <h1 class="text-center">Your Products</h1>
+
+        <!-- Search -->
+        <div class="search-container my-3">
+          <input onkeyup="search()" id="search-input" type="text" class="form-control" placeholder="Search your products" />
+          <div class="search-result">
+              <!-- result comes here -->
+          </div>
+        </div>
+
+        <div class="table-responsive">
+        <table class="table">
+          <thead class="thead-light">
+          <tr>
+            <th scope="col">#ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Barcode</th>
+            <th scope="col">Upload</th>
+            <th scope="col">Action</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr th:each="c : ${contacts}">
+
+              <th scope="row" th:text="${'ID-'+ c.cId}">1</th>
+
+              <td>
+                <img src="" class="my_profile" th:src="@{'/'+${c.image}}"
+                     alt="profile image">
+                <span th:text="${c.name}"></span>
+              </td>
+
+              <td th:text="${c.price}">@mdo</td>
+
+              <td th:text="${c.quantity}">@mdo</td>
+
+              <td>
+                <img src="${pageContext.request.contextPath}/contact/barcode/${c.cId}" width="200" height="60">
+              </td>
+
+              <td>
+
+                <form th:action="@{'/user/update-contact/'+${c.cId}}" method="post" class="mt-2">
+                  Amazon <button class="btn btn-danger btn-sm">Upload</button>
+                </form>
+                <form th:action="@{'/user/update-contact/'+${c.cId}}" method="post" class="mt-2">
+                  Flipkart  <button class="btn btn-danger btn-sm">Upload</button>
+                </form>
+                <form th:action="@{'/user/update-contact/'+${c.cId}}" method="post" class="mt-2">
+                  Indiamart <button class="btn btn-danger btn-sm">Upload</button>
+                </form>
+                <form th:action="@{'/user/update-contact/'+${c.cId}}" method="post" class="mt-2">
+                  Website  <button class="btn btn-danger btn-sm">Upload</button>
+                </form>
+                <!--                <form th:action="@{'/user/update-contact/'+${c.cId}}" method="post" class="mt-2">-->
+                <!--                  <button type="submit" class="btn btn-primary btn-sm">Update</button>-->
+                <!--                </form>-->
+
+              </td>
+
+              <td>
+
+                <a th:href="@{'/user/delete/'+${c.getCId()}}"> <button class="btn btn-danger btn-sm">Delete</button></a>
+
+                <form th:action="@{'/user/update-contact/'+${c.cId}}" method="post" class="mt-2">
+                    <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                </form>
+
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+        </div>
+
+
+<!--        pagination   -->
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+
+            <li th:if="${currentPage != 0}" class="page-item">
+              <a class="page-link" th:href="@{'/user/show-contacts/'+${currentPage-1}}" href="#">Previous</a>
+            </li>
+
+            <li th:classappend="${currentPage==(i-1)?'active':''}" th:each="i : ${#numbers.sequence(1,totalPages)}" class="page-item">
+              <a th:href="@{'/user/show-contacts/'+${i-1}}" class="page-link" href="#">
+                <span th:text="${i}"></span>
+              </a>
+            </li>
+
+            <li th:if="${currentPage+1 != totalPages}" class="page-item">
+              <a class="page-link" th:href="@{'/user/show-contacts/'+${currentPage+1}}" href="#">Next</a>
+            </li>
+
+          </ul>
+        </nav>
+
+
+      </div>
+    </div>
+    <script>
+      $(document).ready(()=>{
+        $(".item").removeClass('active')
+        $("#contact-link").addClass("active");
+      });
+    </script>
+  </section>
+</body>
+</html>
